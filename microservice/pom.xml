@@ -34,6 +34,12 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
         
+        <!-- WebClient for API consumption -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        
         <!-- Eureka Client for service discovery -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
