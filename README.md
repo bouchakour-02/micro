@@ -44,7 +44,52 @@ This project demonstrates external API consumption by integrating with the OpenW
    - Consistent error responses across the application
    - Special handling for entity not found and external API errors
 
-## How to Run
+4. **Docker Containerization**:
+   - Each service is containerized with Docker
+   - Services are orchestrated with Docker Compose
+   - Environment variables for flexible configuration
+   - Networking between containers
+   - Health checks to ensure proper startup sequence
+
+## Running with Docker
+
+### Prerequisites
+- Docker and Docker Compose installed
+- Java 11 (for building)
+- Maven (or use the Maven wrapper included)
+
+### Build and Run
+1. Use the provided scripts:
+   - **Windows**: `docker-build-run.bat`
+   - **Linux/Mac**: `bash docker-build-run.sh`
+
+2. Alternatively, run these commands manually:
+   ```bash
+   # Build the services
+   cd discovery-server && ./mvnw clean package -DskipTests && cd ..
+   cd microservice && ./mvnw clean package -DskipTests && cd ..
+   cd api-gateway && ./mvnw clean package -DskipTests && cd ..
+   
+   # Start with Docker Compose
+   docker-compose up --build
+   ```
+
+3. To run in detached mode (background):
+   ```bash
+   docker-compose up --build -d
+   ```
+
+### Viewing Logs
+- Use the provided script: `docker-logs.bat` (Windows)
+- Or run: `docker-compose logs -f` (all services)
+- For individual services: `docker logs -f <service-name>`
+
+### Stopping the Services
+```bash
+docker-compose down
+```
+
+## Manual Deployment (without Docker)
 
 1. Start the Discovery Server first
 2. Start the Product Microservice
@@ -94,6 +139,8 @@ You can view or modify the scheduled task in Windows Task Scheduler:
 
 - `application.properties`: Contains configuration for each service
 - `pom.xml`: Contains dependencies for each service
+- `Dockerfile`: Contains instructions for building Docker images
+- `docker-compose.yml`: Orchestrates the multi-container application
 
 ## Note
 
