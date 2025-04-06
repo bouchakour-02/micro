@@ -1,0 +1,149 @@
+version: '3'
+
+services:
+  discovery-server:
+    build: ./discovery-server
+    container_name: discovery-server
+    ports:
+      - "8761:8761"
+    networks:
+      - microservice-network
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "9090:9090"
+    environment:
+      - SPRING_APPLICATION_NAME=api-gateway
+      - SERVER_PORT=9090
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8761/eureka
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      product-service:
+        condition: service_healthy
+    networks:
+      - microservice-network
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  product-service:
+    build: ./microservice
+    container_name: product-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_APPLICATION_NAME=product-service
+      - SERVER_PORT=8081
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/productdb
+      - SPRING_DATASOURCE_USERNAME=app_user
+      - SPRING_DATASOURCE_PASSWORD=app_password
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQL8Dialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8761/eureka
+      - OPENWEATHER_API_KEY=4d3beb9c3e944b1c28f313d073a61eee
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+    networks:
+      - microservice-network
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=productdb
+      - MYSQL_USER=app_user
+      - MYSQL_PASSWORD=app_password
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - microservice-network
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - microservice-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - microservice-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+networks:
+  microservice-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+  grafana-data:
+  prometheus-data: 
