@@ -3,6 +3,9 @@ package com.example.microservice.service;
 import com.example.microservice.model.Product;
 import com.example.microservice.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -19,6 +22,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getAllProducts() {
         return productRepository.findAll();
+    }
+    
+    @Override
+    public Page<Product> getProductsPaginated(int page, int size, String sortBy) {
+        return productRepository.findAll(PageRequest.of(page, size, Sort.by(sortBy)));
     }
     
     @Override

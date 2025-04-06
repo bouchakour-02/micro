@@ -5,6 +5,7 @@ import com.example.microservice.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,15 @@ public class ProductController {
     @Operation(summary = "Get all products", description = "Retrieves a list of all available products")
     public ResponseEntity<List<Product>> getAllProducts() {
         return ResponseEntity.ok(productService.getAllProducts());
+    }
+    
+    @GetMapping("/paged")
+    @Operation(summary = "Get paginated products", description = "Retrieves a paginated list of products")
+    public ResponseEntity<Page<Product>> getProductsPaginated(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy) {
+        return ResponseEntity.ok(productService.getProductsPaginated(page, size, sortBy));
     }
     
     @GetMapping("/{id}")

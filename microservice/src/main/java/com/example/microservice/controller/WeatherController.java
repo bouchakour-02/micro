@@ -1,5 +1,6 @@
 package com.example.microservice.controller;
 
+import com.example.microservice.model.ForecastResponse;
 import com.example.microservice.model.WeatherResponse;
 import com.example.microservice.service.WeatherService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,6 +32,14 @@ public class WeatherController {
             @RequestParam double lat,
             @RequestParam double lon) {
         return weatherService.getWeatherByCoordinates(lat, lon)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+    
+    @GetMapping("/forecast/{city}")
+    @Operation(summary = "Get 5-day weather forecast", description = "Retrieves a 5-day weather forecast for a specified city")
+    public Mono<ResponseEntity<ForecastResponse>> getFiveDayForecast(@PathVariable String city) {
+        return weatherService.getFiveDayForecast(city)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }

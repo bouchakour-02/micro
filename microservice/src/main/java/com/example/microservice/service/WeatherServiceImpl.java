@@ -1,5 +1,6 @@
 package com.example.microservice.service;
 
+import com.example.microservice.model.ForecastResponse;
 import com.example.microservice.model.WeatherResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,5 +36,14 @@ public class WeatherServiceImpl implements WeatherService {
                 .uri(apiUrl + "/weather?lat={lat}&lon={lon}&appid={apiKey}&units=metric", lat, lon, apiKey)
                 .retrieve()
                 .bodyToMono(WeatherResponse.class);
+    }
+    
+    @Override
+    public Mono<ForecastResponse> getFiveDayForecast(String city) {
+        return webClientBuilder.build()
+                .get()
+                .uri(apiUrl + "/forecast?q={city}&appid={apiKey}&units=metric", city, apiKey)
+                .retrieve()
+                .bodyToMono(ForecastResponse.class);
     }
 } 

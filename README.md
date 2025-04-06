@@ -9,6 +9,8 @@ This project implements a microservice architecture with Spring Boot, Spring Clo
    - Uses H2 in-memory database
    - Swagger UI documentation available
    - Integrates with OpenWeatherMap API
+   - Supports pagination for product listings
+   - Includes system monitoring endpoints
 
 2. **Discovery Server (Eureka)** (Port 8761)
    - Service registry and discovery
@@ -23,10 +25,24 @@ This project demonstrates external API consumption by integrating with the OpenW
 1. **Weather API Endpoints**:
    - Get weather by city: `/api/v1/weather/city/{cityName}`
    - Get weather by coordinates: `/api/v1/weather/coordinates?lat={latitude}&lon={longitude}`
+   - Get 5-day forecast: `/api/v1/weather/forecast/{cityName}`
 
 2. **Integrated Product-Weather Service**:
    - Get product details with weather information: `/api/v1/product-weather/{productId}?city={cityName}`
    - This showcases how to combine internal data with external API data
+
+## Advanced Features
+
+1. **Pagination**:
+   - Get paginated product listings: `/api/v1/products/paged?page=0&size=10&sortBy=name`
+
+2. **System Monitoring**:
+   - Health check endpoint: `/api/v1/monitor/health`
+   - System information: `/api/v1/monitor/info`
+
+3. **Global Exception Handling**:
+   - Consistent error responses across the application
+   - Special handling for entity not found and external API errors
 
 ## How to Run
 
@@ -68,7 +84,10 @@ You can view or modify the scheduled task in Windows Task Scheduler:
 - H2 Database Console: http://localhost:8081/h2-console
 - Product API (via Gateway): http://localhost:9090/api/v1/products
 - Weather API (via Gateway): http://localhost:9090/api/v1/weather/city/{cityName}
+- Forecast API (via Gateway): http://localhost:9090/api/v1/weather/forecast/{cityName}
 - Integrated API (via Gateway): http://localhost:9090/api/v1/product-weather/{productId}?city={cityName}
+- Health Check: http://localhost:9090/api/v1/monitor/health
+- System Info: http://localhost:9090/api/v1/monitor/info
 - Swagger UI: http://localhost:8081/swagger-ui.html
 
 ## Configuration Files
