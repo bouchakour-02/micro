@@ -1,0 +1,8 @@
+com\example\microservice\repository\ProductRepository.class
+com\example\microservice\config\SwaggerConfig.class
+com\example\microservice\model\Product.class
+com\example\microservice\MicroserviceApplication.class
+com\example\microservice\service\ProductService.class
+com\example\microservice\controller\ProductController.class
+com\example\microservice\discovery\EurekaClientConfig.class
+com\example\microservice\service\ProductServiceImpl.class
