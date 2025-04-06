@@ -8,12 +8,25 @@ This project implements a microservice architecture with Spring Boot, Spring Clo
    - Manages product data with CRUD operations
    - Uses H2 in-memory database
    - Swagger UI documentation available
+   - Integrates with OpenWeatherMap API
 
 2. **Discovery Server (Eureka)** (Port 8761)
    - Service registry and discovery
 
 3. **API Gateway** (Port 9090)
    - Routes client requests to appropriate microservices
+
+## External API Integration
+
+This project demonstrates external API consumption by integrating with the OpenWeatherMap API:
+
+1. **Weather API Endpoints**:
+   - Get weather by city: `/api/v1/weather/city/{cityName}`
+   - Get weather by coordinates: `/api/v1/weather/coordinates?lat={latitude}&lon={longitude}`
+
+2. **Integrated Product-Weather Service**:
+   - Get product details with weather information: `/api/v1/product-weather/{productId}?city={cityName}`
+   - This showcases how to combine internal data with external API data
 
 ## How to Run
 
@@ -54,6 +67,8 @@ You can view or modify the scheduled task in Windows Task Scheduler:
 - Eureka Dashboard: http://localhost:8761
 - H2 Database Console: http://localhost:8081/h2-console
 - Product API (via Gateway): http://localhost:9090/api/v1/products
+- Weather API (via Gateway): http://localhost:9090/api/v1/weather/city/{cityName}
+- Integrated API (via Gateway): http://localhost:9090/api/v1/product-weather/{productId}?city={cityName}
 - Swagger UI: http://localhost:8081/swagger-ui.html
 
 ## Configuration Files
