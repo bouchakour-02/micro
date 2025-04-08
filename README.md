@@ -8,7 +8,7 @@ This platform is built using a microservices architecture with the following com
 
 - **Service Discovery (Eureka)**: Central registry for all microservices
 - **API Gateway**: Single entry point for client requests
-- **Product Microservice**: Core business logic for insurance products
+- **Insurance Recommendation Service**: Core business logic for insurance recommendations
 - **MySQL Database**: Persistent data storage
 - **Prometheus & Grafana**: Monitoring and metrics visualization
 
@@ -59,6 +59,29 @@ For local development:
 - API Gateway: http://localhost:9090
 - Prometheus: http://localhost:9090
 - Grafana: http://localhost:3000 (admin/admin)
+
+## API Endpoints
+
+The Insurance Recommendation Service provides the following API endpoints:
+
+### Submit Insurance Preferences
+- **URL**: `/api/preferences`
+- **Method**: POST
+- **Description**: Submit user preferences for insurance recommendations
+- **Request Body**: Insurance preference details (age, income, interests, etc.)
+- **Response**: Saved preference with ID
+
+### Get Recommendations by Preference ID
+- **URL**: `/api/preferences/{id}/recommendations`
+- **Method**: GET
+- **Description**: Get recommendations based on a specific preference submission
+- **Response**: List of personalized insurance recommendations with scores
+
+### Get User Recommendations
+- **URL**: `/api/preferences/user/{email}/recommendations`
+- **Method**: GET
+- **Description**: Get the latest recommendations for a specific user
+- **Response**: List of personalized insurance recommendations with scores
 
 ## Monitoring Setup
 

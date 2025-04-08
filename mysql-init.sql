@@ -1,25 +1,6 @@
 -- Create database if not exists
-CREATE DATABASE IF NOT EXISTS productdb;
-USE productdb;
-
--- Product Table
-CREATE TABLE IF NOT EXISTS product (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description TEXT,
-    price DECIMAL(10, 2) NOT NULL,
-    quantity INT DEFAULT 0,
-    category VARCHAR(100),
-    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-
--- Category Table
-CREATE TABLE IF NOT EXISTS category (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL UNIQUE,
-    description TEXT
-);
+CREATE DATABASE IF NOT EXISTS insurancedb;
+USE insurancedb;
 
 -- User Table
 CREATE TABLE IF NOT EXISTS users (
@@ -33,58 +14,67 @@ CREATE TABLE IF NOT EXISTS users (
     last_login TIMESTAMP NULL
 );
 
--- Order Table
-CREATE TABLE IF NOT EXISTS orders (
+-- Insurance Preference Table
+CREATE TABLE IF NOT EXISTS insurance_preferences (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(20) DEFAULT 'PENDING',
-    total_amount DECIMAL(10, 2) NOT NULL,
-    shipping_address TEXT,
-    payment_method VARCHAR(50),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    user_email VARCHAR(100) NOT NULL,
+    age INT,
+    annual_income DECIMAL(12, 2),
+    has_family_dependents BOOLEAN,
+    has_health_issues BOOLEAN,
+    has_vehicle BOOLEAN,
+    vehicle_type VARCHAR(50),
+    has_property BOOLEAN,
+    property_type VARCHAR(50),
+    interested_in_life_insurance BOOLEAN,
+    interested_in_health_insurance BOOLEAN,
+    interested_in_vehicle_insurance BOOLEAN,
+    interested_in_property_insurance BOOLEAN,
+    risk_tolerance VARCHAR(20),
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Order Item Table
-CREATE TABLE IF NOT EXISTS order_item (
+-- Insurance Recommendation Table
+CREATE TABLE IF NOT EXISTS insurance_recommendations (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    order_id BIGINT NOT NULL,
-    product_id BIGINT NOT NULL,
-    quantity INT NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (order_id) REFERENCES orders(id),
-    FOREIGN KEY (product_id) REFERENCES product(id)
+    preference_id BIGINT NOT NULL,
+    insurance_type VARCHAR(50) NOT NULL,
+    insurance_name VARCHAR(255) NOT NULL,
+    description TEXT,
+    monthly_cost DECIMAL(10, 2),
+    annual_cost DECIMAL(10, 2),
+    coverage_details TEXT,
+    recommendation_score INT,
+    recommendation_reason TEXT,
+    is_primary_recommendation BOOLEAN DEFAULT FALSE,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (preference_id) REFERENCES insurance_preferences(id)
 );
 
--- Weather Cache Table
-CREATE TABLE IF NOT EXISTS weather_cache (
+-- Recommendation Rule Table
+CREATE TABLE IF NOT EXISTS recommendation_rules (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    city VARCHAR(100) NOT NULL,
-    country VARCHAR(100) NOT NULL,
-    temperature DECIMAL(5, 2),
-    weather_description VARCHAR(255),
-    humidity INT,
-    wind_speed DECIMAL(5, 2),
-    fetch_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    expiry_time TIMESTAMP,
-    UNIQUE KEY city_country_idx (city, country)
+    insurance_type VARCHAR(50) NOT NULL,
+    rule_name VARCHAR(255) NOT NULL,
+    rule_description TEXT,
+    rule_condition TEXT,
+    rule_score_weight INT,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- Insert sample data
-INSERT INTO category (name, description) VALUES 
-('Electronics', 'Electronic devices and accessories'),
-('Clothing', 'Apparel and fashion items'),
-('Books', 'Books and publications');
-
-INSERT INTO product (name, description, price, quantity, category) VALUES
-('Smartphone', 'Latest smartphone with high-end features', 899.99, 50, 'Electronics'),
-('Laptop', 'Powerful laptop for professionals', 1299.99, 25, 'Electronics'),
-('T-shirt', 'Comfortable cotton t-shirt', 19.99, 100, 'Clothing'),
-('Jeans', 'Classic blue jeans', 49.99, 75, 'Clothing'),
-('Programming Book', 'Learn microservices architecture', 39.99, 30, 'Books');
-
 INSERT INTO users (username, password, email, full_name, role) VALUES
 ('admin', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', 'admin@example.com', 'Admin User', 'ADMIN'),
 ('user1', '$2a$10$8K1p/a7yx1qoXwVscSJ32ukeeTRM/Lh5XDNVnbnas.ZP4vNGlhU/a', 'user1@example.com', 'Regular User', 'USER');
+
+-- Insert sample recommendation rules
+INSERT INTO recommendation_rules (insurance_type, rule_name, rule_description, rule_condition, rule_score_weight, is_active) VALUES
+('LIFE', 'Age Factor', 'Score based on age range', 'age > 30', 20, TRUE),
+('LIFE', 'Family Dependents', 'Higher priority for those with dependents', 'has_family_dependents = true', 40, TRUE),
+('HEALTH', 'Health Issues', 'Higher priority for those with health issues', 'has_health_issues = true', 50, TRUE),
+('VEHICLE', 'Vehicle Ownership', 'Only recommend if user has a vehicle', 'has_vehicle = true', 30, TRUE),
+('PROPERTY', 'Property Ownership', 'Only recommend if user owns property', 'has_property = true', 25, TRUE);
 
 -- Passwords are bcrypt hashed: 'password' 

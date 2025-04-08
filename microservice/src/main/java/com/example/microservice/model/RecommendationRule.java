@@ -20,19 +20,24 @@ public class RecommendationRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @Column(name = "rule_name")
     private String ruleName;
     
+    @Column(name = "rule_description")
     private String description;
     
+    @Column(name = "insurance_type")
     private String insuranceType;
     
     // Rule criteria in JSON format
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "rule_condition", columnDefinition = "TEXT")
     private String criteria;
     
     // Weight of this rule in the recommendation algorithm (1-100)
+    @Column(name = "rule_score_weight")
     private Integer weight;
     
+    @Column(name = "is_active")
     private Boolean isActive;
     
     @Column(name = "created_date")

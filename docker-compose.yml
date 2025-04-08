@@ -25,19 +25,19 @@ services:
     depends_on:
       discovery-server:
         condition: service_healthy
-      product-service:
+      recommendation-service:
         condition: service_healthy
     networks:
       - microservice-network
     restart: always
 
-  product-service:
+  recommendation-service:
     build: ./microservice
-    container_name: product-service
+    container_name: recommendation-service
     ports:
       - "8081:8081"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:h2:mem:productdb
+      - SPRING_DATASOURCE_URL=jdbc:h2:mem:insurancedb
       - SPRING_DATASOURCE_USERNAME=sa
       - SPRING_DATASOURCE_PASSWORD=password
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8761/eureka

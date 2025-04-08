@@ -21,7 +21,9 @@ services:
           memory: 512M
 
   api-gateway:
-    build: ./api-gateway
+    build: 
+      context: ./api-gateway
+      dockerfile: Dockerfile.prod
     container_name: api-gateway
     ports:
       - "9090:9090"
@@ -32,33 +34,37 @@ services:
     depends_on:
       discovery-server:
         condition: service_healthy
-      product-service:
+      recommendation-service:
         condition: service_healthy
     networks:
       - microservice-network
     restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9090/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     deploy:
       resources:
         limits:
           cpus: '0.5'
           memory: 512M
 
-  product-service:
+  recommendation-service:
     build: ./microservice
-    container_name: product-service
+    container_name: recommendation-service
     ports:
       - "8081:8081"
     environment:
-      - SPRING_APPLICATION_NAME=product-service
+      - SPRING_APPLICATION_NAME=insurance-recommendation-service
       - SERVER_PORT=8081
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/productdb
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/insurancedb
       - SPRING_DATASOURCE_USERNAME=app_user
       - SPRING_DATASOURCE_PASSWORD=app_password
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
       - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQL8Dialect
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8761/eureka
-      - OPENWEATHER_API_KEY=4d3beb9c3e944b1c28f313d073a61eee
     depends_on:
       discovery-server:
         condition: service_healthy
@@ -85,7 +91,7 @@ services:
       - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=productdb
+      - MYSQL_DATABASE=insurancedb
       - MYSQL_USER=app_user
       - MYSQL_PASSWORD=app_password
     volumes:
