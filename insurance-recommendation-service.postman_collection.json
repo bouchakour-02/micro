@@ -1,0 +1,326 @@
+{
+  "info": {
+    "name": "Insurance Recommendation Service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Recommendation Service",
+      "item": [
+        {
+          "name": "Submit Insurance Preferences",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userEmail\": \"test@example.com\",\n  \"age\": 35,\n  \"annualIncome\": 75000,\n  \"hasFamilyDependents\": true,\n  \"hasHealthIssues\": false,\n  \"hasVehicle\": true,\n  \"vehicleType\": \"Car\",\n  \"hasProperty\": true,\n  \"propertyType\": \"House\",\n  \"interestedInLifeInsurance\": true,\n  \"interestedInHealthInsurance\": true,\n  \"interestedInVehicleInsurance\": true,\n  \"interestedInPropertyInsurance\": true\n}"
+            },
+            "url": {
+              "raw": "http://localhost:9090/api/preferences",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9090",
+              "path": [
+                "api",
+                "preferences"
+              ]
+            },
+            "description": "Submit user preferences for insurance recommendations"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Recommendations for User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:9090/api/preferences/user/test@example.com/recommendations",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9090",
+              "path": [
+                "api",
+                "preferences",
+                "user",
+                "test@example.com",
+                "recommendations"
+              ]
+            },
+            "description": "Get the latest recommendations for a specific user"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Recommendations by Preference ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:9090/api/preferences/1/recommendations",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9090",
+              "path": [
+                "api",
+                "preferences",
+                "1",
+                "recommendations"
+              ]
+            },
+            "description": "Get recommendations based on a specific preference submission"
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints for submitting preferences and getting recommendations"
+    },
+    {
+      "name": "Admin API",
+      "item": [
+        {
+          "name": "Get All Rules",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:9090/api/admin/rules",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9090",
+              "path": [
+                "api",
+                "admin",
+                "rules"
+              ]
+            },
+            "description": "Get all recommendation rules"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Active Rules",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:9090/api/admin/rules/active",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9090",
+              "path": [
+                "api",
+                "admin",
+                "rules",
+                "active"
+              ]
+            },
+            "description": "Get only active recommendation rules"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Rule by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:9090/api/admin/rules/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9090",
+              "path": [
+                "api",
+                "admin",
+                "rules",
+                "1"
+              ]
+            },
+            "description": "Get a specific rule by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Rule",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ruleName\": \"Test Rule\",\n  \"description\": \"A test rule\",\n  \"insuranceType\": \"LIFE\",\n  \"criteria\": \"age > 40\",\n  \"weight\": 25,\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "http://localhost:9090/api/admin/rules",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9090",
+              "path": [
+                "api",
+                "admin",
+                "rules"
+              ]
+            },
+            "description": "Create a new recommendation rule"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Rule",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ruleName\": \"Updated Test Rule\",\n  \"description\": \"An updated test rule\",\n  \"insuranceType\": \"LIFE\",\n  \"criteria\": \"age > 45\",\n  \"weight\": 30,\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "http://localhost:9090/api/admin/rules/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9090",
+              "path": [
+                "api",
+                "admin",
+                "rules",
+                "1"
+              ]
+            },
+            "description": "Update an existing recommendation rule"
+          },
+          "response": []
+        },
+        {
+          "name": "Activate Rule",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:9090/api/admin/rules/1/activate",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9090",
+              "path": [
+                "api",
+                "admin",
+                "rules",
+                "1",
+                "activate"
+              ]
+            },
+            "description": "Activate a recommendation rule"
+          },
+          "response": []
+        },
+        {
+          "name": "Deactivate Rule",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:9090/api/admin/rules/1/deactivate",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9090",
+              "path": [
+                "api",
+                "admin",
+                "rules",
+                "1",
+                "deactivate"
+              ]
+            },
+            "description": "Deactivate a recommendation rule"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Rule",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:9090/api/admin/rules/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9090",
+              "path": [
+                "api",
+                "admin",
+                "rules",
+                "1"
+              ]
+            },
+            "description": "Delete a recommendation rule"
+          },
+          "response": []
+        }
+      ],
+      "description": "Admin endpoints for managing recommendation rules"
+    },
+    {
+      "name": "Eureka Service Discovery",
+      "item": [
+        {
+          "name": "Get Registered Applications",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8761/eureka/apps",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8761",
+              "path": [
+                "eureka",
+                "apps"
+              ]
+            },
+            "description": "Get all registered applications in Eureka"
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints for Eureka service discovery"
+    }
+  ]
+} 
