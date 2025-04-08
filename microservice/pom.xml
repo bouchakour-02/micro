@@ -11,8 +11,8 @@
     <groupId>com.example</groupId>
     <artifactId>microservice</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>microservice</name>
-    <description>Product Microservice for Microservice Architecture</description>
+    <name>insurance-recommendation-service</name>
+    <description>Insurance Recommendation Microservice for Microservice Architecture</description>
     <properties>
         <java.version>11</java.version>
         <spring-cloud.version>2021.0.5</spring-cloud.version>
@@ -49,6 +49,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.28</version>
             <scope>runtime</scope>
         </dependency>
         
