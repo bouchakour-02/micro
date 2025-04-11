@@ -6,8 +6,25 @@
   <component name="ChangeListManager">
     <list default="true" id="d874a7cc-88da-4509-8567-41040ddf0df2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../api-gateway/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/target/classes/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../discovery-server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../discovery-server/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../discovery-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../discovery-server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docker-compose.prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.prod.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fix_pom.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fixed-pom.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/microservice/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/microservice/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/microservice/controller/InsurancePreferenceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/microservice/controller/InsurancePreferenceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-prod.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-prod.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application-prod.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/microservice/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/microservice/controller/AdminController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/microservice/controller/InsurancePreferenceController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/microservice/controller/InsurancePreferenceController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,6 +95,8 @@
       <workItem from="1743896768953" duration="2863000" />
       <workItem from="1744102721345" duration="33000" />
       <workItem from="1744104051759" duration="7000" />
+      <workItem from="1744149128393" duration="810000" />
+      <workItem from="1744217234710" duration="11000" />
     </task>
     <servers />
   </component>

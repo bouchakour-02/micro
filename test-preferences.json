@@ -1,0 +1,19 @@
+{
+  "userEmail": "test@example.com",
+  "userName": "Test User",
+  "age": 65,
+  "profession": "Retired",
+  "annualIncome": 40000,
+  "hasVehicle": true,
+  "vehicleType": "Sedan",
+  "hasProperty": true,
+  "propertyType": "Apartment",
+  "hasHealthIssues": true,
+  "healthIssuesDescription": "Hypertension",
+  "hasFamilyDependents": false,
+  "numberOfDependents": 0,
+  "interestedInLifeInsurance": true,
+  "interestedInHealthInsurance": true,
+  "interestedInVehicleInsurance": true,
+  "interestedInPropertyInsurance": false
+} 

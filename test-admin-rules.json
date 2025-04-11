@@ -1,0 +1,8 @@
+{
+  "ruleName": "Health Insurance for Seniors",
+  "description": "Recommends premium health insurance for individuals over 60",
+  "insuranceType": "HEALTH",
+  "criteria": "{\"ageAbove\": 60, \"hasHealthIssues\": true}",
+  "weight": 80,
+  "isActive": true
+} 

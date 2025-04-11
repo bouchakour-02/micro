@@ -70,6 +70,20 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- PDF Export -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.5.13.3</version>
+        </dependency>
+
+        <!-- Google Maps API -->
+        <dependency>
+            <groupId>com.google.maps</groupId>
+            <artifactId>google-maps-services</artifactId>
+            <version>2.1.2</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -99,3 +113,6 @@
         </plugins>
     </build>
 </project> 
+
+
+

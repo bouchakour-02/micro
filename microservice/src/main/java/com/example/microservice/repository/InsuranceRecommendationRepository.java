@@ -15,4 +15,5 @@ public interface InsuranceRecommendationRepository extends JpaRepository<Insuran
     
     List<InsuranceRecommendation> findByPreferenceUserEmail(String userEmail);
     
+    void deleteByPreferenceId(Long preferenceId);
 } 

@@ -8,10 +8,12 @@ import com.example.microservice.repository.InsuranceRecommendationRepository;
 import com.example.microservice.repository.RecommendationRuleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +24,7 @@ public class RecommendationService {
     private final InsuranceRecommendationRepository recommendationRepository;
     private final RecommendationRuleRepository ruleRepository;
 
+    @Transactional
     public InsurancePreference savePreference(InsurancePreference preference) {
         InsurancePreference savedPreference = preferenceRepository.save(preference);
         generateRecommendations(savedPreference);
@@ -241,5 +244,88 @@ public class RecommendationService {
         }
         
         return Math.min(score, 100);
+    }
+    
+    @Transactional
+    public InsurancePreference updatePreference(Long id, InsurancePreference updatedPreference) {
+        return preferenceRepository.findById(id)
+                .map(existingPreference -> {
+                    // Update the existing preference fields
+                    existingPreference.setUserEmail(updatedPreference.getUserEmail());
+                    existingPreference.setUserName(updatedPreference.getUserName());
+                    existingPreference.setAge(updatedPreference.getAge());
+                    existingPreference.setProfession(updatedPreference.getProfession());
+                    existingPreference.setAnnualIncome(updatedPreference.getAnnualIncome());
+                    existingPreference.setHasVehicle(updatedPreference.getHasVehicle());
+                    existingPreference.setVehicleType(updatedPreference.getVehicleType());
+                    existingPreference.setHasProperty(updatedPreference.getHasProperty());
+                    existingPreference.setPropertyType(updatedPreference.getPropertyType());
+                    existingPreference.setHasHealthIssues(updatedPreference.getHasHealthIssues());
+                    existingPreference.setHealthIssuesDescription(updatedPreference.getHealthIssuesDescription());
+                    existingPreference.setHasFamilyDependents(updatedPreference.getHasFamilyDependents());
+                    existingPreference.setNumberOfDependents(updatedPreference.getNumberOfDependents());
+                    existingPreference.setInterestedInLifeInsurance(updatedPreference.getInterestedInLifeInsurance());
+                    existingPreference.setInterestedInHealthInsurance(updatedPreference.getInterestedInHealthInsurance());
+                    existingPreference.setInterestedInVehicleInsurance(updatedPreference.getInterestedInVehicleInsurance());
+                    existingPreference.setInterestedInPropertyInsurance(updatedPreference.getInterestedInPropertyInsurance());
+                    
+                    // Save the updated preference
+                    InsurancePreference savedPreference = preferenceRepository.save(existingPreference);
+                    
+                    // Delete existing recommendations for this preference
+                    recommendationRepository.deleteByPreferenceId(id);
+                    
+                    // Generate new recommendations
+                    generateRecommendations(savedPreference);
+                    
+                    return savedPreference;
+                })
+                .orElseThrow(() -> new RuntimeException("Preference not found with id: " + id));
+    }
+    
+    @Transactional
+    public void deletePreference(Long id) {
+        if (preferenceRepository.existsById(id)) {
+            // First delete associated recommendations
+            recommendationRepository.deleteByPreferenceId(id);
+            // Then delete the preference
+            preferenceRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Preference not found with id: " + id);
+        }
+    }
+    
+    public List<InsurancePreference> getAllPreferences() {
+        return preferenceRepository.findAll();
+    }
+    
+    public InsurancePreference getPreferenceById(Long id) {
+        return preferenceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Preference not found with id: " + id));
+    }
+
+    public List<InsurancePreference> getPreferencesByUserEmail(String userEmail) {
+        return preferenceRepository.findByUserEmail(userEmail);
+    }
+
+    public Optional<InsurancePreference> getLatestPreferenceByUserEmail(String userEmail) {
+        return preferenceRepository.findTopByUserEmailOrderByCreatedDateDesc(userEmail);
+    }
+
+    public List<InsuranceRecommendation> getAllRecommendations() {
+        return recommendationRepository.findAll();
+    }
+
+    public InsuranceRecommendation getRecommendationById(Long id) {
+        return recommendationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Recommendation not found with id: " + id));
+    }
+
+    @Transactional
+    public void deleteRecommendation(Long id) {
+        if (!recommendationRepository.existsById(id)) {
+            throw new RuntimeException("Recommendation not found with id: " + id);
+        }
+        recommendationRepository.deleteById(id);
     }
 } 
